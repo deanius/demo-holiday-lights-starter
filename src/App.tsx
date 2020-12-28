@@ -1,45 +1,31 @@
-import { useListener, trigger, log } from "polyrhythm-react";
-import React, { useState } from "react";
+import React from "react";
 import "./styles.css";
 
+// These are the allowed modes, and the modes they transition to.
 const TRANSITIONS = {
   off: "white",
   white: "off"
 };
 
+// These are the colors. A bulb can have a native color, as a class
+// which shows through in rainbow mode. Otherwise white and off do just that.
 const COLORS = {
   off: "off",
-  white: "white"
+  white: "white",
+  rainbow: "rainbow"
 };
 
-const ADVANCE_MODE = "mode/advance";
-const SET_COLOR = "color/set";
+// Constants to get you started
+const color = "off"; // rainbow|white|off
+const mode = "off";
 
 export default function App() {
-  const [{ mode, color }, setState] = useState({ mode: "off", color: "off" });
-  const setAtts = (atts) => setState((old) => ({ ...old, ...atts }));
-
-  // log every event
-  useListener(true, log);
-
-  useListener(ADVANCE_MODE, ({ payload: { from } }) => {
-    const newMode = TRANSITIONS[from];
-    const newColor = COLORS[newMode];
-    trigger(SET_COLOR, { color: newColor });
-    setAtts({ mode: newMode });
-  });
-
-  useListener(SET_COLOR, ({ payload: { color } }) => {
-    setAtts({ color });
-  });
-
-  function advanceMode() {
-    trigger(ADVANCE_MODE, { from: mode });
-  }
-
   return (
     <div className="App">
-      <button id="switch" onClick={advanceMode}>
+      <button
+        id="switch"
+        onClick={() => console.log("TODO Implement mode change")}
+      >
         Switch!
       </button>
       <div className="tree">
